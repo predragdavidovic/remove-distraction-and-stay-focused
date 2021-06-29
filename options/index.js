@@ -18,7 +18,9 @@ applyChanges.addEventListener('click', e => {
         work: work.value, 
         pause: pause.value,
         initialTimer: work.value,
+        initialPause: pause.value,
         isTimerActive: true,
+        wasTimerElapsed: false,
     });
 });
 
