@@ -4,15 +4,35 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <h4>Block these sites:</h4>
-        <textarea id="blocked_items_area"></textarea>
-        <div class="work_minutes_panel">
-            <label for="work">Work:</label>
-            <input id="work_in_minutes" type="number" id="work" value="25">
-            <label for="break">Pause:</label>
-            <input id="pause_in_minutes" type="number" id="break" value="5">
+        <div>
+            <h4 class="title">Block these sites:</h4>
+            <textarea id="blocked_items_area"></textarea>
+            <div class="description">
+                <p>
+                    If you want to block facebook.com with all subdomains, like
+                    facebook.com/photos, facebook.com/videos, facebook.com/friends put only facebook.com it will block all subdomains.
+                </p>
+                <p>If you want to block only one strict subdomain, you should type it exaclty
+                    for example facebook.com/videos will block only facebook.com/videos but will allow all other facebook.com subdomains to be used.
+                </p>
+            </div>
+            <div class="">
+                <div class="time_holder">
+                    <div>
+                        <label for="work">Work: <span id="work_present"></span></label>
+                    </div>
+                    <input class="slider" type="range" min="1" max="120" id="work_in_minutes" step="1">
+                </div>
+                <div class="time_holder">
+                    <div>
+                        <label for="break" >Pause: <span id="pause_present">5 minutes</span></label>
+                    </div>
+                    <input class="slider" type="range" min="1" max="120" id="pause_in_minutes" step="1">
+                </div>
+            </div>
+            <div class="changes">Succesfully updated changes!</div>
+            <button class="button">Apply changes</button>
         </div>
-        <button >Apply changes</button>
     </body>
     <script src="index.js"></script>
 </html>

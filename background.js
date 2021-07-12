@@ -11,12 +11,11 @@ chrome.runtime.onInstalled.addListener(() => {
         blockedPages: initiallyBlockedPages, 
         work: 25,
         pause: 5,
-        initialTimer: 25,
+        initialWork: 25,
         initialPause: 5,
         isTimerActive: false,
         wasTimerElapsed: false,
     });
-    console.log("App is installed sucessfully!");
 });
 
 chrome.alarms.onAlarm.addListener(() => {
@@ -33,9 +32,11 @@ chrome.action.onClicked.addListener(() => {
     chrome.storage.local.get(['work', 'wasTimerElapsed', 'pause'], ({work, wasTimerElapsed, pause}) => {
         if (wasTimerElapsed) {
             chrome.storage.local.set({pause, isTimerActive: false}); 
+            chrome.action.setBadgeBackgroundColor({color: '#46b04b'});
             chrome.action.setBadgeText({text: `${(pause)}m`});    
         } else {
             chrome.storage.local.set({work, isTimerActive: true});
+            chrome.action.setBadgeBackgroundColor({color: '#c20404'});
             chrome.action.setBadgeText({text: `${(work)}m`});
         }
         chrome.alarms.create({periodInMinutes: 1});
@@ -71,9 +72,9 @@ function badgeTimer(currentTime, wasTimerElapsed) {
     } else {
         chrome.action.setBadgeText({text: ``});
         chrome.alarms.clearAll();
-        chrome.storage.local.get(['initialTimer','initialPause'], ({initialTimer, initialPause}) => {
+        chrome.storage.local.get(['initialWork','initialPause'], ({initialWork, initialPause}) => {
             chrome.storage.local.set({
-                work: initialTimer,
+                work: initialWork,
                 pause: initialPause, 
                 isTimerActive: false,
                 wasTimerElapsed: !wasTimerElapsed,

@@ -1,6 +1,6 @@
 {
-    "name": "Focus deeply",
-    "description": "Focus deeply and be more productive",
+    "name": "Focus and remove distraction",
+    "description": "Focus and remove distraction. Be more productive",
     "version": "1.0",
     "manifest_version": 3,
     "permissions": [
@@ -18,6 +18,13 @@
     },
     "options_page": "./options/index.html",
     "action": {
-        "default_title": "Click here"
-    }
+        "default_title": "Focus"
+    },
+    "web_accessible_resources": [
+       {
+           "resources": ["/images/focus.jpg"],
+           "matches": ["<all_urls>"],
+           "extension_ids": ["ledfkfapijlddkhdhjhpdfgdpagcpplg"]
+       } 
+    ]
 }
