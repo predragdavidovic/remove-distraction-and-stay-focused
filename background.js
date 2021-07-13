@@ -15,6 +15,7 @@ chrome.runtime.onInstalled.addListener(() => {
         initialPause: 5,
         isTimerActive: false,
         wasTimerElapsed: false,
+        isExtensionIconClickable: false,
     });
 });
 
@@ -29,13 +30,19 @@ chrome.alarms.onAlarm.addListener(() => {
 });
 
 chrome.action.onClicked.addListener(() => {
-    chrome.storage.local.get(['work', 'wasTimerElapsed', 'pause'], ({work, wasTimerElapsed, pause}) => {
+    chrome.storage.local.get(['work', 'blockedPages', 'wasTimerElapsed','isExtensionIconClickable', 'pause'], ({work, blockedPages,isExtensionIconClickable, wasTimerElapsed, pause}) => {
+        if (isExtensionIconClickable) {
+            return;
+        }
+        
+        blockCurrentlyOpenedPages(blockedPages);
+
         if (wasTimerElapsed) {
-            chrome.storage.local.set({pause, isTimerActive: false}); 
+            chrome.storage.local.set({pause, isTimerActive: false, isExtensionIconClickable: true}); 
             chrome.action.setBadgeBackgroundColor({color: '#46b04b'});
-            chrome.action.setBadgeText({text: `${(pause)}m`});    
+            chrome.action.setBadgeText({text: `${(pause)}m`});
         } else {
-            chrome.storage.local.set({work, isTimerActive: true});
+            chrome.storage.local.set({work, isTimerActive: true, isExtensionIconClickable: true});
             chrome.action.setBadgeBackgroundColor({color: '#c20404'});
             chrome.action.setBadgeText({text: `${(work)}m`});
         }
@@ -78,6 +85,7 @@ function badgeTimer(currentTime, wasTimerElapsed) {
                 pause: initialPause, 
                 isTimerActive: false,
                 wasTimerElapsed: !wasTimerElapsed,
+                isExtensionIconClickable: false,
             });
         });
     }
@@ -93,11 +101,28 @@ function blockPage(tab, tabId) {
     chrome.storage.local.get('blockedPages', ({blockedPages}) => {
         blockedPages.map(url => {
             if (isPageBlocked(url, tab)) {
-                chrome.scripting.executeScript({
-                    target: {tabId: tabId},
-                    files: ['./site/script.js'],
-                });
+                executeScript(tabId);
             }
         });            
+    });
+}
+
+function blockCurrentlyOpenedPages(blockedPages) {
+    chrome.tabs.query({}).then(data => {
+        data.forEach(tab => {
+            blockedPages.forEach(blockedPage => {
+               let blockedPageRegex = RegExp(`${blockedPage}*`, 'g');
+                if (!!blockedPageRegex.exec(tab.url)) {
+                    executeScript(tab.id);
+                }
+            });
+        })
+    });
+}
+
+function executeScript(tabId) {
+    chrome.scripting.executeScript({
+        target: {tabId: tabId},
+        files: ['./site/script.js'],
     });
 }

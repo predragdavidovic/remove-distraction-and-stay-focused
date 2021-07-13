@@ -1,6 +1,10 @@
-window.onload=function(){
-    document.body.innerHTML = "Forbiden";
-    const img = document.createElement('img');
-    img.src = chrome.runtime.getURL('/images/focus.jpg');
-    document.body.append(img);   
+if (typeof newDiv === 'undefined') {
+    let newDiv = document.createElement("div");
+    newDiv.style.zIndex = 99999999;
+    newDiv.style.position = "absolute";
+    newDiv.style.top= "0";
+    newDiv.style.height = "100%";
+    newDiv.style.width = "100%";
+    newDiv.style.backgroundColor = 'red';
+    document.body.append(newDiv);
 }
