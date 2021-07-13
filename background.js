@@ -34,10 +34,12 @@ chrome.action.onClicked.addListener(() => {
         if (isExtensionIconClickable) {
             return;
         }
-        
+        chrome.runtime.sendMessage({message: "start_action"});
+
         blockCurrentlyOpenedPages(blockedPages);
 
         if (wasTimerElapsed) {
+            unBlockPages(blockedPages);
             chrome.storage.local.set({pause, isTimerActive: false, isExtensionIconClickable: true}); 
             chrome.action.setBadgeBackgroundColor({color: '#46b04b'});
             chrome.action.setBadgeText({text: `${(pause)}m`});
@@ -107,6 +109,19 @@ function blockPage(tab, tabId) {
     });
 }
 
+function unBlockPages(blockedPages) {
+    chrome.tabs.query({}).then(data => {
+        data.forEach(tab => {
+            blockedPages.forEach(blockedPage => {
+               let blockedPageRegex = RegExp(`${blockedPage}*`, 'g');
+                if (!!blockedPageRegex.exec(tab.url)) {
+                    executeScript2(tab.id);
+                }
+            });
+        })
+    });
+}
+
 function blockCurrentlyOpenedPages(blockedPages) {
     chrome.tabs.query({}).then(data => {
         data.forEach(tab => {
@@ -123,6 +138,13 @@ function blockCurrentlyOpenedPages(blockedPages) {
 function executeScript(tabId) {
     chrome.scripting.executeScript({
         target: {tabId: tabId},
-        files: ['./site/script.js'],
+        files: ['./site/blockPageScript.js'],
+    });
+}
+
+function executeScript2(tabId) {
+    chrome.scripting.executeScript({
+        target: {tabId: tabId},
+        files: ['./site/unblockPages.js'],
     });
 }

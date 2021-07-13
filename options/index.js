@@ -11,6 +11,10 @@ function timeInProperForm(time) {
     return `${time} ${properForm}`;
 }
 
+chrome.runtime.onMessage.addListener(function({message}) {
+    console.log("I recived message ", message);
+});
+
 function setCurrentSliderValues(work, pause) {
     workPreview.innerHTML = timeInProperForm(work);
     pausePreview.innerHTML = timeInProperForm(pause);
