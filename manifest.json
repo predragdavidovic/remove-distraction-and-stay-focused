@@ -22,7 +22,7 @@
     },
     "web_accessible_resources": [
        {
-           "resources": ["/images/focus.jpg"],
+           "resources": ["/images/forbiden.png"],
            "matches": ["<all_urls>"],
            "extension_ids": ["ledfkfapijlddkhdhjhpdfgdpagcpplg"]
        } 
