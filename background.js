@@ -16,6 +16,7 @@ chrome.runtime.onInstalled.addListener(() => {
         isTimerActive: false,
         wasTimerElapsed: false,
         isExtensionIconClickable: false,
+        areChangesDisabled: false
     });
 });
 
@@ -34,7 +35,8 @@ chrome.action.onClicked.addListener(() => {
         if (isExtensionIconClickable) {
             return;
         }
-        chrome.runtime.sendMessage({message: "start_action"});
+        chrome.storage.local.set({areChangesDisabled: true});
+        chrome.runtime.sendMessage({message: true});
 
         blockCurrentlyOpenedPages(blockedPages);
 
@@ -81,6 +83,7 @@ function badgeTimer(currentTime, wasTimerElapsed) {
     } else {
         chrome.action.setBadgeText({text: ``});
         chrome.alarms.clearAll();
+        chrome.runtime.sendMessage({message: false});
         chrome.storage.local.get(['initialWork','initialPause'], ({initialWork, initialPause}) => {
             chrome.storage.local.set({
                 work: initialWork,
@@ -88,6 +91,7 @@ function badgeTimer(currentTime, wasTimerElapsed) {
                 isTimerActive: false,
                 wasTimerElapsed: !wasTimerElapsed,
                 isExtensionIconClickable: false,
+                areChangesDisabled: false
             });
         });
     }

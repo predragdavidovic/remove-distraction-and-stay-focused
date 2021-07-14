@@ -4,6 +4,10 @@ body {
     background-color: #f4f0f0;
 }
 
+.title {
+    margin: 10px;
+}
+
 textarea {
     min-height: 350px;
     min-width: 400px;
@@ -90,5 +94,35 @@ textarea {
 }
 
 .changes.active {
+    display: block;
+}
+
+.slider.disabled_element::-webkit-slider-thumb {
+    background: #8b8d8c;
+    cursor:not-allowed;
+}
+
+.button.disabled_element {
+    background: #8b8d8c;
+    cursor:not-allowed;
+}
+
+.blocked_items_area:disabled {
+    cursor: not-allowed;
+}
+
+.warrning {
+    color: #c00;
+    font-size: 14px;
+    width: 450px;
+    margin: 0 auto;
+    display: none;
+}
+
+.warrning > p {
+    margin-top: 0;
+}
+
+.warrning.warrning-active {
     display: block;
 }

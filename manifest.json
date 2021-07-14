@@ -1,6 +1,6 @@
 {
-    "name": "Focus and remove distraction",
-    "description": "Focus and remove distraction. Be more productive",
+    "name": "Remove distraction and stay focused",
+    "description": "Remove distraction and stay focused. Be more productive",
     "version": "1.0",
     "manifest_version": 3,
     "permissions": [
