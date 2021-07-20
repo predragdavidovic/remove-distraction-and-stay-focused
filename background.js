@@ -18,9 +18,11 @@ chrome.runtime.onInstalled.addListener(() => {
         isExtensionIconClickable: false,
         areChangesDisabled: false
     });
+
+    chrome.alarms.clearAll();
 });
 
-chrome.alarms.onAlarm.addListener(() => {
+chrome.alarms.onAlarm.addListener((alarm) => {
     chrome.storage.local.get(['wasTimerElapsed','work', 'pause'], ({work, pause, wasTimerElapsed}) => {
         if (wasTimerElapsed) {
             badgeTimer(pause, wasTimerElapsed);
@@ -45,12 +47,14 @@ chrome.action.onClicked.addListener(() => {
             chrome.storage.local.set({pause, isTimerActive: false, isExtensionIconClickable: true}); 
             chrome.action.setBadgeBackgroundColor({color: '#46b04b'});
             chrome.action.setBadgeText({text: `${(pause)}m`});
+            chrome.action.setIcon({path: "./images/asset32green.png"});
         } else {
             chrome.storage.local.set({work, isTimerActive: true, isExtensionIconClickable: true});
             chrome.action.setBadgeBackgroundColor({color: '#c20404'});
             chrome.action.setBadgeText({text: `${(work)}m`});
+            chrome.action.setIcon({path: "./images/asset32red.png"});
         }
-        chrome.alarms.create({periodInMinutes: 1});
+        chrome.alarms.create("activateAlarm",{periodInMinutes: 1});
     });
 });
 
@@ -82,6 +86,7 @@ function badgeTimer(currentTime, wasTimerElapsed) {
         chrome.action.setBadgeText({text: `${(currentTime)}m`});
     } else {
         chrome.action.setBadgeText({text: ``});
+        chrome.action.setIcon({path: "./images/asset32.png"});
         chrome.alarms.clearAll();
         chrome.runtime.sendMessage({message: false});
         chrome.storage.local.get(['initialWork','initialPause'], ({initialWork, initialPause}) => {

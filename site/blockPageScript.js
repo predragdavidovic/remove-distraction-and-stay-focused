@@ -8,14 +8,14 @@ if (!hasClass()) {
     // Add content to elements
     paragraphDescription.innerHTML = "Page is blocked until a break timer starts.";
     paragraphMotivation.innerHTML = "Be prodactive and stay focused!"
-    image.src =  chrome.runtime.getURL("./images/forbiden.png");
+    image.src =  chrome.runtime.getURL("./images/asset128site.png");
     
     // style container
     container.style.zIndex = 99999999;
     container.style.position = "fixed";
     container.style.textAlign = "center";
     container.style.fontSize = "16px";
-    container.style.paddingTop = "100px";
+    container.style.paddingTop = "80px";
     container.style.fontFamily = "Arial, Helvetica, sans-serif";
     container.style.top= "0px";
     container.style.left = "0px"
@@ -28,12 +28,12 @@ if (!hasClass()) {
     image.style.margin = "0px auto";
     container.classList.add("__distraction-blocker__");
     paragraphDescription.style.margin ="16px 0px";
-    paragraphMotivation.style.margin ="0px 0px";
+    paragraphMotivation.style.margin ="0px 0px 20px 0px";
     
     // append elements to container  
-    container.append(image);
     container.append(paragraphDescription);
     container.append(paragraphMotivation);
+    container.append(image);
     document.body.append(container);
     document.body.classList.add('___distraction-blocker___');
 }

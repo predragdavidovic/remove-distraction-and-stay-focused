@@ -20,9 +20,15 @@
     "action": {
         "default_title": "Focus"
     },
+    "icons": {
+        "16": "./images/asset16.png",
+        "48": "./images/asset48.png",
+        "128": "./images/asset128.png"
+
+    },
     "web_accessible_resources": [
        {
-           "resources": ["/images/forbiden.png"],
+           "resources": ["/images/asset128site.png"],
            "matches": ["<all_urls>"],
            "extension_ids": ["ledfkfapijlddkhdhjhpdfgdpagcpplg"]
        } 
