@@ -1,6 +1,6 @@
 {
-    "name": "Remove distraction and stay focused",
-    "description": "Remove distraction and stay focused. Be more productive",
+    "name": "Remove Distraction & Stay Focused",
+    "description": "Stay focused and enhance productivity. Block distracting sites and focus on what is important to you.",
     "version": "1.0",
     "manifest_version": 3,
     "permissions": [
